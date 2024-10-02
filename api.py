@@ -55,7 +55,7 @@ class Pets:
         my_token = Pets().get_token()[0]
         pet_id = Pets().post_pet()[0]
         headers = {'Authorization': f'Bearer {my_token}'}
-        file_path = 'tests\\photo\\dog.jpg'
+        file_path = 'tests/photo/dog.jpg'
         file = open(file_path, 'rb')
         doc_picture_binary = {'pic': ('image.jpg', file, 'image/jpeg')}
         res = requests.post(self.base_url + f'pet/{pet_id}/image', headers=headers, files=doc_picture_binary)
@@ -82,24 +82,25 @@ class Pets:
         headers = {'Authorization': f'Bearer {my_token}'}
         pet_id = Pets().post_pet()[0]
         print(pet_id)
-        res = requests.put(self.base_url + f'pet/{pet_id}' + '/like', headers=headers)
+        res = requests.put(self.base_url + f'pet/{pet_id}/like', headers=headers)
         like = res.json()
         status = res.status_code
         print(status)
         return status, like
 
     def put_pet_comment(self) -> json:
-        """Request to Swagger to put a comment to a pet"""
+        """Request to Swagger to put a message to a pet"""
         my_token = Pets().get_token()[0]
+        my_id = Pets().get_token()[2]
         headers = {'Authorization': f'Bearer {my_token}'}
-        pet_id = Pets().post_pet()
+        pet_id = Pets().post_pet()[0]
         print(pet_id)
-        res = requests.put(self.base_url + f'pet/{pet_id}' + '/comment', data=json.dumps(pet_id), headers=headers)
-        comment = {"My super-puper-cool dog"}
+        data = {"id": my_id, "message": 'My super-puper-cool dog'}
+        res = requests.put(self.base_url + f'pet/{pet_id}/comment', data=json.dumps(data), headers=headers)
         status = res.status_code
+        message = res.json()
         print(status)
-        print(comment)
-        return status, comment
+        return status, message
 
 
 Pets().get_token()
@@ -108,5 +109,5 @@ Pets().post_pet()
 Pets().get_pet_id()
 Pets().post_pet_photo()
 Pets().patch_pet()
-# Pets().put_pet_like()
-#Pets().put_pet_comment()
+Pets().put_pet_like()
+Pets().put_pet_comment()

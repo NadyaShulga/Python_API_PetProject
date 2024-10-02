@@ -48,14 +48,17 @@ def test_patch_pet():
 
 
 def test_put_pet_like():
-    status = pt.put_pet_like()[0]
-    like = pt.put_pet_like()[1]
+    pet = pt.put_pet_like()
+    status = pet[0]
+    like = pet[1]
     assert status == 200
     assert like
 
 
 def test_put_pet_comment():
-    status = pt.put_pet_comment()[0]
-    comment = pt.put_pet_comment()[1]
+    pet = pt.put_pet_comment()
+    status = pet[0]
+    message = pet[1]
     assert status == 200
-    assert comment
+    assert message
+
